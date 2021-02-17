@@ -31,6 +31,7 @@ func GetBitmapList(srcFolder string) (BitmapPaths, error) {
 	return paths, nil
 }
 
+// This transforms a bmp image from a souce to a png into an output
 func PathToPNGImage(src, output string) error {
 	srcFile, err := os.Open(src)
 	defer srcFile.Close()
