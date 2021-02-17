@@ -6,6 +6,8 @@ import (
 	"testing"
 )
 
+var testbmp string = filepath.Join("testdata", "test.bmp")
+
 func TestReadDir(t *testing.T) {
 	expected := BitmapPaths{
 		filepath.Join("testdata", "test.bmp")}
@@ -14,4 +16,12 @@ func TestReadDir(t *testing.T) {
 		t.Fatal(err)
 	}
 	fmt.Println(files, err, expected)
+}
+
+func TestConvertBMPToPNG(t *testing.T) {
+	outputFile := filepath.Join("testdata", "testtest.png")
+	err := PathToPNGImage(testbmp, outputFile)
+	if err != nil {
+		t.Fatal(err)
+	}
 }
