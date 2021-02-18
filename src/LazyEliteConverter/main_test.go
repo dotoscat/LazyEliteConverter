@@ -25,3 +25,23 @@ func TestConvertBMPToPNG(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestDefaultConfig(t *testing.T) {
+	const (
+		srcName = "srcTest"
+		outputName = "outputTest")
+	config := NewConfig(srcName, outputName)
+	if config.srcFolder != srcName {
+		t.Fatalf("config.srcFolder is not %v", srcName)
+	}
+	if config.outputFolder != outputName {
+		t.Fatalf("config.outputFolder is not %v", outputName)
+	}
+	if config.Preserve != true {
+		t.Fatal("config defaults does not preserve the source!!")
+	}
+	if config.Format != "png" {
+		t.Fatal("config defaults does not use png")
+	}
+	fmt.Println(config)
+}

@@ -1,17 +1,34 @@
 package LazyEliteConverter
 
 import (
-	"fmt"
+	// "fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
-	"os"
-	
+
 	"golang.org/x/image/bmp"
 	"image/png"
 )
 
+// Config describes the config for the conversion
+type Config struct {
+	Preserve     bool
+	Format       string
+	srcFolder    string
+	outputFolder string
+}
+
 type BitmapPaths []string
+
+// NewConfig returns a Config with some of the defaults 
+func NewConfig(srcFolder, outputFolder string) Config {
+	return Config{
+		true,
+		"png",
+		srcFolder,
+		outputFolder}
+}
 
 // GetBitmapList gets a list of string with the the BMP paths
 func GetBitmapList(srcFolder string) (BitmapPaths, error) {
@@ -54,6 +71,6 @@ func PathToPNGImage(src, output string) error {
 	return nil
 }
 
-func Algo() {
-	fmt.Println("Algo")
+func ConvertList(config Config, list BitmapPaths) error {
+	return nil
 }
