@@ -6,6 +6,11 @@ import (
 	"testing"
 )
 
+const (
+	srcName    = "srcTest"
+	outputName = "outputTest"
+)
+
 var testbmp string = filepath.Join("testdata", "test.bmp")
 
 func TestReadDir(t *testing.T) {
@@ -18,6 +23,16 @@ func TestReadDir(t *testing.T) {
 	fmt.Println(files, err, expected)
 }
 
+func TestGetOutputList(t *testing.T) {
+	config := NewConfig("./testdata", "./testdata")
+	srcFiles, err := GetBitmapList(config.SrcFolder())
+	if err != nil {
+		t.Fatal(err)
+	}
+	outputFiles := GetOutputList(srcFiles, config)
+	fmt.Println(outputFiles)
+}
+
 func TestConvertBMPToPNG(t *testing.T) {
 	outputFile := filepath.Join("testdata", "testtest.png")
 	err := PathToPNGImage(testbmp, outputFile)
@@ -27,9 +42,6 @@ func TestConvertBMPToPNG(t *testing.T) {
 }
 
 func TestDefaultConfig(t *testing.T) {
-	const (
-		srcName = "srcTest"
-		outputName = "outputTest")
 	config := NewConfig(srcName, outputName)
 	if config.srcFolder != srcName {
 		t.Fatalf("config.srcFolder is not %v", srcName)

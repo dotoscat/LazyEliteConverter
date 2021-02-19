@@ -1,7 +1,7 @@
 package LazyEliteConverter
 
 import (
-	// "fmt"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -19,9 +19,20 @@ type Config struct {
 	outputFolder string
 }
 
-type BitmapPaths []string
+func (c Config) SrcFolder() string {
+	return c.srcFolder
+}
 
-// NewConfig returns a Config with some of the defaults 
+func (c Config) OutputFolder() string {
+	return c.outputFolder
+}
+
+type (
+	BitmapPaths []string
+	Paths       []string
+)
+
+// NewConfig returns a Config with some of the defaults
 func NewConfig(srcFolder, outputFolder string) Config {
 	return Config{
 		true,
@@ -48,6 +59,18 @@ func GetBitmapList(srcFolder string) (BitmapPaths, error) {
 	return paths, nil
 }
 
+func GetOutputList(list BitmapPaths, config Config) Paths {
+	paths := make(Paths, 0)
+	for _, path := range list {
+		base := filepath.Base(path)
+		chunks := strings.Split(base, ".")
+		outputName := chunks[0] + "." + config.Format
+		outputPath := filepath.Join(config.OutputFolder(), outputName)
+		paths = append(paths, outputPath)
+	}
+	return paths
+}
+
 // This transforms a bmp image from a souce to a png into an output
 func PathToPNGImage(src, output string) error {
 	srcFile, err := os.Open(src)
@@ -71,6 +94,14 @@ func PathToPNGImage(src, output string) error {
 	return nil
 }
 
-func ConvertList(config Config, list BitmapPaths) error {
+func ConvertList(config Config) error {
+	list, err := GetBitmapList(config.SrcFolder())
+	if err != nil {
+		return err
+	}
+	fmt.Println(list)
+	//for path := range list {
+
+	//}
 	return nil
 }
