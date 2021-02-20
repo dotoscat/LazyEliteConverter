@@ -57,3 +57,11 @@ func TestDefaultConfig(t *testing.T) {
 	}
 	fmt.Println(config)
 }
+
+func TestConvertList(t *testing.T){
+	config := NewConfig("./testdata", "./testdata")
+	err := ConvertList(config)
+	if err != nil {
+		t.Fatal(err)
+	}
+}

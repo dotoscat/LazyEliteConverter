@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"errors"
 
 	"golang.org/x/image/bmp"
 	"image/png"
@@ -100,8 +101,18 @@ func ConvertList(config Config) error {
 		return err
 	}
 	fmt.Println(list)
-	//for path := range list {
-
-	//}
+	outputList := GetOutputList(list, config)
+	if len(list) != len(outputList) {
+		return errors.New("For some reason the len of the bitmap list is not the same as the output list")
+	}
+	for i := 0; i < len(list); i++ {
+		err := PathToPNGImage(list[i], outputList[i])
+		if err != nil {
+			return err
+		}
+		if !config.Preserve {
+			fmt.Printf("Not preserve %v\n", list[i])
+		}
+	}
 	return nil
 }
