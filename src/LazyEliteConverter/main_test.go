@@ -1,12 +1,12 @@
 package LazyEliteConverter
 
 import (
-	"fmt"
-	"path/filepath"
-	"testing"
 	"crypto/sha256"
+	"fmt"
 	"io"
 	"os"
+	"path/filepath"
+	"testing"
 )
 
 const (
@@ -52,15 +52,18 @@ func TestGetOutputList(t *testing.T) {
 }
 
 func TestConvertBMPToPNG(t *testing.T) {
-	referenceTest := filepath.Join("testdata", "referencetest.png") 
-	outputFile := filepath.Join("testdata", "testtest.png")
+	referenceTest := filepath.Join("testdata", "referencetest.png")
+	outputFile := filepath.Join("testdata", "test.png")
 	err := PathToPNGImage(testbmp, outputFile)
 	if err != nil {
 		t.Fatal(err)
 	}
 	checksumReference, err := checkFileIntegrity(referenceTest)
 	checksumTest, err := checkFileIntegrity(outputFile)
-	fmt.Println("checksum", checksumReference, checksumTest)
+	t.Log("checksum", checksumReference, checksumTest)
+	if checksumReference != checksumTest {
+		t.Fatalf("They are not equal: %v - %v", checksumReference, checksumTest)
+	}
 }
 
 func TestDefaultConfig(t *testing.T) {
@@ -80,7 +83,7 @@ func TestDefaultConfig(t *testing.T) {
 	fmt.Println(config)
 }
 
-func TestConvertList(t *testing.T){
+func TestConvertList(t *testing.T) {
 	config := NewConfig("./testdata", "./testdata")
 	err := ConvertList(config)
 	if err != nil {

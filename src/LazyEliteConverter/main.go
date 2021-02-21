@@ -1,12 +1,12 @@
 package LazyEliteConverter
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
-	"errors"
 
 	"golang.org/x/image/bmp"
 	"image/png"
