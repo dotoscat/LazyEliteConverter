@@ -4,12 +4,30 @@ import (
 	"fmt"
 	"path/filepath"
 	"testing"
+	"crypto/sha256"
+	"io"
+	"os"
 )
 
 const (
 	srcName    = "srcTest"
 	outputName = "outputTest"
 )
+
+type checksum [sha256.Size]byte
+
+func checkFileIntegrity(path string) (checksum, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return checksum{0}, err
+	}
+	defer file.Close()
+	all, err := io.ReadAll(file)
+	if err != nil {
+		return checksum{0}, err
+	}
+	return sha256.Sum256(all), nil
+}
 
 var testbmp string = filepath.Join("testdata", "test.bmp")
 
@@ -34,11 +52,15 @@ func TestGetOutputList(t *testing.T) {
 }
 
 func TestConvertBMPToPNG(t *testing.T) {
+	referenceTest := filepath.Join("testdata", "referencetest.png") 
 	outputFile := filepath.Join("testdata", "testtest.png")
 	err := PathToPNGImage(testbmp, outputFile)
 	if err != nil {
 		t.Fatal(err)
 	}
+	checksumReference, err := checkFileIntegrity(referenceTest)
+	checksumTest, err := checkFileIntegrity(outputFile)
+	fmt.Println("checksum", checksumReference, checksumTest)
 }
 
 func TestDefaultConfig(t *testing.T) {
