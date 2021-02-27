@@ -116,12 +116,13 @@ func ConvertList(config Config) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(list)
+	nFiles := len(list)
+	fmt.Printf("You want me to convert a total of %v bmp files\n", nFiles)
 	outputList := GetOutputList(list, config)
 	if len(list) != len(outputList) {
 		return errors.New("For some reason the len of the bitmap list is not the same as the output list")
 	}
-	for i := 0; i < len(list); i++ {
+	for i := 0; i < nFiles; i++ {
 		err := PathToPNGImage(list[i], outputList[i])
 		if err != nil {
 			return err
@@ -129,6 +130,8 @@ func ConvertList(config Config) error {
 		if !config.Preserve {
 			fmt.Printf("Not preserve %v\n", list[i])
 		}
+		progress := i*100.0/nFiles
+		fmt.Printf("%v %% done\n", progress)
 	}
 	return nil
 }
