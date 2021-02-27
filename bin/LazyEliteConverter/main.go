@@ -16,7 +16,7 @@
 
 package main
 
-// import "github.com/dotoscat/LazyEliteConverter/src/LazyEliteConverter"
+import "github.com/dotoscat/LazyEliteConverter/src/LazyEliteConverter"
 import "flag"
 import "fmt"
 import "os"
@@ -33,12 +33,18 @@ func main() {
 	flag.StringVar(&output, "o", "", outputUsage)
 	flag.Parse()
 	if len(source) == 0 {
-		fmt.Errorf("source is empty!\n")
+		fmt.Println("source is empty!")
 		os.Exit(1)
 	}
 	if len(output) == 0 {
-		fmt.Errorf("output is empty!\n")
+		fmt.Println("output is empty!")
 		os.Exit(2)
 	}
 	fmt.Printf("Convert bmp files from \"%v\" to \"%v\"\n", source, output)
+	config := LazyEliteConverter.NewConfig(source, output)
+	err := LazyEliteConverter.ConvertList(config)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(3)
+	}
 }
