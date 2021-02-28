@@ -128,7 +128,9 @@ func ConvertList(config Config) error {
 			return err
 		}
 		if !config.Preserve {
-			fmt.Printf("Not preserve %v\n", list[i])
+			if err := os.Remove(list[i]); err != nil {
+				return err
+			}
 		}
 		progress := nFiles - (i + 1)
 		fmt.Printf("%v files left\n", progress)

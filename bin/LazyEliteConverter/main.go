@@ -23,14 +23,17 @@ import "os"
 
 const sourceUsage = "Source directory"
 const outputUsage = "Output directory"
+const noPreserveFilesUsage = "No preserve files"
 
 func main() {
 	var source string
 	var output string
+	var noPreserveFiles bool = false
 	flag.StringVar(&source, "source", "", sourceUsage)
 	flag.StringVar(&source, "s", "", sourceUsage)
 	flag.StringVar(&output, "output", "", outputUsage)
 	flag.StringVar(&output, "o", "", outputUsage)
+	flag.BoolVar(&noPreserveFiles, "no-preserve-original-files", false, noPreserveFilesUsage)
 	flag.Parse()
 	if len(source) == 0 {
 		fmt.Println("source is empty!")
@@ -42,6 +45,8 @@ func main() {
 	}
 	fmt.Printf("Convert bmp files from \"%v\" to \"%v\"\n", source, output)
 	config := LazyEliteConverter.NewConfig(source, output)
+	config.Preserve = !noPreserveFiles
+	fmt.Println("Preserve files? ", config.Preserve)
 	err := LazyEliteConverter.ConvertList(config)
 	if err != nil {
 		fmt.Println(err)
