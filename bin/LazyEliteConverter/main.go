@@ -25,16 +25,25 @@ const sourceUsage = "Source directory"
 const outputUsage = "Output directory"
 const noPreserveFilesUsage = "No preserve files"
 
+const VERSION = "0.1"
+
 func main() {
 	var source string
 	var output string
 	var noPreserveFiles bool = false
+	var showVersion = false
 	flag.StringVar(&source, "source", "", sourceUsage)
 	flag.StringVar(&source, "s", "", sourceUsage)
 	flag.StringVar(&output, "output", "", outputUsage)
 	flag.StringVar(&output, "o", "", outputUsage)
 	flag.BoolVar(&noPreserveFiles, "no-preserve-original-files", false, noPreserveFilesUsage)
+	flag.BoolVar(&showVersion, "version", false, "")
+	flag.BoolVar(&showVersion, "v", false, "")
 	flag.Parse()
+	if showVersion{
+		fmt.Println(VERSION)
+		os.Exit(0)
+	}
 	if len(source) == 0 {
 		fmt.Println("source is empty!")
 		os.Exit(1)
