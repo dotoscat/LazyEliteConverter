@@ -25,7 +25,7 @@ const sourceUsage = "Source directory"
 const outputUsage = "Output directory"
 const noPreserveFilesUsage = "No preserve files"
 
-const VERSION = "0.1"
+const VERSION = "0.2"
 
 func main() {
 	var source string
