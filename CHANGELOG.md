@@ -5,3 +5,4 @@
 ### Added
 
 - Read bmp files from a source folder, then convert them to png to an output folder.
+- Basic user output to make the user knows that there is working.

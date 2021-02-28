@@ -130,8 +130,8 @@ func ConvertList(config Config) error {
 		if !config.Preserve {
 			fmt.Printf("Not preserve %v\n", list[i])
 		}
-		progress := i*100.0/nFiles
-		fmt.Printf("%v %% done\n", progress)
+		progress := nFiles - (i + 1)
+		fmt.Printf("%v files left\n", progress)
 	}
 	return nil
 }
